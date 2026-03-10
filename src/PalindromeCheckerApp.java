@@ -4,19 +4,21 @@ import java.util.Scanner;
 class PalindromeCheckerApp {
 
 
-    static boolean isPalindrome(String str, int start, int end) {
+    static boolean isPalindrome(String str) {
 
-        if (start >= end) {
-            return true;
+        str = str.replaceAll("\\s+", "").toLowerCase();
+
+        int start = 0;
+        int end = str.length() - 1;
+
+        while (start < end) {
+            if (str.charAt(start) != str.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
         }
-
-
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-
-        return isPalindrome(str, start + 1, end - 1);
+        return true;
     }
 
     public static void main(String[] args) {
@@ -25,7 +27,7 @@ class PalindromeCheckerApp {
         System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        if (isPalindrome(input, 0, input.length() - 1)) {
+        if (isPalindrome(input)) {
             System.out.println("Palindrome");
         } else {
             System.out.println("Not Palindrome");
