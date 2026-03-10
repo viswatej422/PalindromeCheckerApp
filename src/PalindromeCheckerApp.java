@@ -1,37 +1,93 @@
-import java.util.Deque;
-import java.util.ArrayDeque;
+import java.util.Scanner;
+
 public class PalindromeCheckerApp {
-    public static void main(String[] args) {
-        String word = "level";
 
-        Deque<Character> deque = new ArrayDeque<>();
+    // Node class
+    static class Node {
+        char data;
+        Node next;
 
-        // Insert characters into deque
-        for (int i = 0; i < word.length(); i++) {
-            deque.addLast(word.charAt(i));
+        Node(char data) {
+            this.data = data;
+            this.next = null;
         }
+    }
 
-        // Compare front and rear elements
-        boolean isPalindrome = true;
+    // Convert string to linked list
+    static Node buildList(String str) {
+        Node head = null, tail = null;
 
-        while (deque.size() > 1) {
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
+        for (int i = 0; i < str.length(); i++) {
+            Node newNode = new Node(str.charAt(i));
 
-            if (front != rear) {
-                isPalindrome = false;
-                break;
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
             }
         }
+        return head;
+    }
 
-        // Display result
-        System.out.println("Palindrome Checker App");
-        System.out.println("UC7: Deque-Based Optimized Palindrome Checker");
+    // Reverse linked list
+    static Node reverse(Node head) {
+        Node prev = null;
+        Node curr = head;
 
-        if (isPalindrome) {
-            System.out.println("The word \"" + word + "\" is a palindrome.");
-        } else {
-            System.out.println("The word \"" + word + "\" is NOT a palindrome.");
+        while (curr != null) {
+            Node nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
         }
+
+        return prev;
+    }
+
+    // Palindrome check
+    static boolean isPalindrome(Node head) {
+        if (head == null || head.next == null)
+            return true;
+
+        Node slow = head;
+        Node fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node secondHalfStart = reverse(slow.next);
+
+        Node firstHalf = head;
+        Node secondHalf = secondHalfStart;
+
+        while (secondHalf != null) {
+            if (firstHalf.data != secondHalf.data) {
+                return false;
+            }
+            firstHalf = firstHalf.next;
+            secondHalf = secondHalf.next;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        Node head = buildList(input);
+
+        if (isPalindrome(head)) {
+            System.out.println("Is Palindrome? : true");
+        } else {
+            System.out.println("Is Palindrome? : false");
+        }
+
+        scanner.close();
     }
 }
