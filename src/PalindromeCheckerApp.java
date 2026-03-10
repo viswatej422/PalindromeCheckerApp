@@ -1,22 +1,29 @@
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
 
-        String word = "level";
+        String word = "racecar";
 
-        String reversed = "";
+        char[] charArray = word.toCharArray();
 
+        int start = 0;
+        int end = charArray.length - 1;
+        boolean isPalindrome = true;
 
-        for (int i = word.length() - 1; i >= 0; i--) {
-            reversed = reversed + word.charAt(i);
+        while (start < end) {
+            if (charArray[start] != charArray[end]) {
+                isPalindrome = false;
+                break;
+            }
+            start++;
+            end--;
         }
 
-        if (word.equals(reversed)) {
-            System.out.println("Palindrome Checker App");
-            System.out.println("UC3: Palindrome Check Using String Reverse");
+        System.out.println("Palindrome Checker App");
+        System.out.println("UC4: Character Array Based Palindrome Check");
+
+        if (isPalindrome) {
             System.out.println("The word \"" + word + "\" is a palindrome.");
         } else {
-            System.out.println("Palindrome Checker App");
-            System.out.println("UC3: Palindrome Check Using String Reverse");
             System.out.println("The word \"" + word + "\" is NOT a palindrome.");
         }
     }
